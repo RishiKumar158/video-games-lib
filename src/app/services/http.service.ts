@@ -27,23 +27,20 @@ export class HttpService {
 
   getGameDetails(id: string): Observable<Game> {
     const gameInfoRequest = this.http.get(`${env.BASE_URL}/games/${id}`);
-    const gameTrailerRequest = this.http.get(
-      `${env.BASE_URL}/games/${id}/movies`
-    );
-    const gameScreenshotsRequest = this.http.get(
-      `${env.BASE_URL}/games/${id}/screenshots`
-    );
+    // trailers and movies api's are removed that's why
+    // const gameTrailerRequest = this.http.get(
+    //   `${env.BASE_URL}/games/${id}/movies`
+    // );
+    // const gameScreenshotsRequest = this.http.get(
+    //   `${env.BASE_URL}/games/${id}/screenshots`
+    // );
 
     return forkJoin({
       gameInfoRequest,
-      gameScreenshotsRequest,
-      gameTrailerRequest,
     }).pipe(
       map((resp: any) => {
         return {
           ...resp['gameInfoRequest'],
-          screenshots: resp['gameScreenshotsRequest']?.results,
-          trailers: resp['gameTrailerRequest']?.results,
         };
       })
     );
